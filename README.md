@@ -8,7 +8,7 @@ provide a such environment.
 The incubator main role is to provide to a baby an environment similar to which that was provided by its mother before the
   premature birth, that means a controlled temperature, controlled oxygen, and controlled humidity. In order to achieve that, ISS uses an operator interface that helps set the temperatures boundaries, and two distinct functions to monitor and regulate those parameters in perfect interaction with others isolette's components, such as Heat Source and Temperature Sensor.
 
-VERSION or DATE:04-08-2019
+VERSION and DATE:IS.1.0 04-08-2019
 
 HOW TO START THIS PROJECT: This project has a main class named IsoletteMain
 
