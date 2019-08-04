@@ -2,7 +2,7 @@ package isoletteTest;
 
 import isolette.IsoletteSystem;
 
-public class IsoletteTest {
+public class IsoletteMain {
 	
 	
 	
