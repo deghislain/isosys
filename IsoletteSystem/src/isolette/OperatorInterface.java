@@ -35,22 +35,22 @@ public class OperatorInterface implements IOperatorInterface {
 	/**
 	 * Indicates the current low desired temperature
 	 */
-	private byte LDTemp = 68;
+	private byte LDTemp = 96;
 
 	/**
 	 * Indicates the current upper desired temperature
 	 */
-	private byte UDTemp = 68;
+	private byte UDTemp = 97;
 
 	/**
 	 * Indicates the current low alarm temperature
 	 */
-	private byte LATemp = 68;
+	private byte LATemp = 93;
 
 	/**
 	 * Indicates the current upper alarm temperature
 	 */
-	private byte UATemp = 68;
+	private byte UATemp = 99;
 
 	/**
 	 * Turn the thermostat on off
@@ -103,7 +103,7 @@ public class OperatorInterface implements IOperatorInterface {
 			UDTemp = UDTempIn;
 			if (MINLDTEMP <= LDTempIn && LDTempIn <= MAXLDTEMP) {
 				lowDesirableTempStatus = ETempStatus.VALID;
-			} else {
+			}else {
 				lowDesirableTempStatus = ETempStatus.INVALID;
 			}
 

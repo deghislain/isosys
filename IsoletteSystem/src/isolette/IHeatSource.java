@@ -5,7 +5,7 @@ public interface IHeatSource {
 	/**
 	 * This method run the heat source tasks
 	 */
-	public abstract void run(EStatus heatControl, EStatus thermosStatus);
+	public abstract void run(EStatus heatControl);
 
 	/**
 	 * Return the heat source current status

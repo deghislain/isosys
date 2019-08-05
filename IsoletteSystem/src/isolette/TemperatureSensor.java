@@ -22,7 +22,7 @@ public class TemperatureSensor implements ITemperatureSensor {
 	 * Keep the current temperature up to date
 	 */
 	private void updateCurrentTemperature(float heat) {
-		currTemp = heat/100.0f;
+		currTemp = heat/100;
 	}
 
 	/**

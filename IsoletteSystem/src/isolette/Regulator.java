@@ -40,12 +40,12 @@ public class Regulator implements IRegulator {
 	/**
 	 * Indicates the lower desired temperature in input
 	 */
-	private byte LDTemp = 68;
+	private byte LDTemp = 97;
 
 	/**
 	 * Indicates the upper desired temperature in input
 	 */
-	private byte UDTemp = 68;
+	private byte UDTemp = 98;
 
 	/**
 	 * Indicates the system initialization timeout
@@ -62,8 +62,8 @@ public class Regulator implements IRegulator {
 	/**
 	 * This method run regulator tasks
 	 */
-	public void run(EStatus thermosStatus, byte LDTempIn, byte UDTempIn, byte currTempIn) {
-		this.startTimer(thermosStatus);
+	public void run(byte LDTempIn, byte UDTempIn, byte currTempIn) {
+		this.startTimer();
 		this.updateCurrentTemperature(LDTempIn, UDTempIn, currTempIn);
 		this.updateHeatSourceStatus();
 		this.checkRegulatorFailure(LDTempIn, UDTempIn, currTempIn);
@@ -74,7 +74,7 @@ public class Regulator implements IRegulator {
 	/**
 	 * Start the initialization timer
 	 */
-	private void startTimer(EStatus thermosStatus) {
+	private void startTimer() {
 		if (regStatus == EStatus.INIT) {
 			if (initTime == 0) {
 				initTime = System.nanoTime();
@@ -130,10 +130,12 @@ public class Regulator implements IRegulator {
 	 * Update the heat source status
 	 */
 	private void updateHeatSourceStatus() {
-		if (currTemp <= LDTemp && HSStatus == EStatus.OFF) {
-			HSStatus = EStatus.ON;
-		} else if(currTemp >= UDTemp && HSStatus == EStatus.ON){
-			HSStatus = EStatus.OFF;
+		if (regStatus == EStatus.ON) {
+			if (currTemp <= LDTemp && HSStatus == EStatus.OFF) {
+				HSStatus = EStatus.ON;
+			} else if (currTemp >= UDTemp && HSStatus == EStatus.ON) {
+				HSStatus = EStatus.OFF;
+			}
 		}
 	}
 

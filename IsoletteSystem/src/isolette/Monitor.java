@@ -39,12 +39,12 @@ public class Monitor implements IMonitor {
 	/**
 	 * Indicates the lower desired temperature in input
 	 */
-	private byte LATemp = 68;
+	private byte LATemp = 93;
 
 	/**
 	 * Indicates the upper desired temperature in input
 	 */
-	private byte UATemp = 68;
+	private byte UATemp = 99;
 	
 	/**
 	 * Indicates the system initialization timeout

@@ -10,7 +10,7 @@ public class IsoletteMain {
 	public static void main(String[] args) {
 		final byte lowDesiredTemp = 97;
 
-		final byte upperDesiredTemp = 99;
+		final byte upperDesiredTemp = 98;
 
 		final byte lowAlarmTemp = 93;
 
@@ -19,7 +19,7 @@ public class IsoletteMain {
 		IsoletteSystem is = new IsoletteSystem();
 		int i =1;
 		
-		while(i < 8) {
+		while(true) {
 			System.out.println("Round: " +i++);
 			is.executeRound(true, lowDesiredTemp, upperDesiredTemp, lowAlarmTemp, upperAlarmTemp);
 		}

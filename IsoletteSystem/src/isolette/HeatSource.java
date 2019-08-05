@@ -11,23 +11,21 @@ public class HeatSource implements IHeatSource {
 	/**
 	 * This method run the heat source tasks
 	 */
-	public void run(EStatus heatControl, EStatus thermosStatus) {
-		this.turnHeatSourceOn(heatControl, thermosStatus);
-		this.turnHeatSourceOff(heatControl, thermosStatus);
+	public void run(EStatus heatControl) {
+		this.turnHeatSourceOn(heatControl);
+		this.turnHeatSourceOff(heatControl);
 	}
 
 	/**
 	 * Turn the heat source on
 	 */
-	private void turnHeatSourceOn(EStatus heatControl, EStatus thermosStatus) {
-		if (thermosStatus != EStatus.OFF && thermosStatus != EStatus.FAILED) {
+	private void turnHeatSourceOn(EStatus heatControl) {
 			if (heatControl == EStatus.ON) {
 				heatDelta = heatingRate * 0.1f;
-				if (HSStatus == EStatus.OFF) {
+				if (heatControl == EStatus.OFF) {
 					HSStatus = EStatus.ON;
 				}
 			}
-		}
 	}
 
 	/**
@@ -40,15 +38,13 @@ public class HeatSource implements IHeatSource {
 	/**
 	 * Turn the heat source off
 	 */
-	public void turnHeatSourceOff(EStatus heatControl, EStatus thermosStatus) {
-		if (thermosStatus != EStatus.OFF && thermosStatus != EStatus.FAILED) {
+	public void turnHeatSourceOff(EStatus heatControl) {
 			if (heatControl == EStatus.OFF) {
-				heatDelta = heatingRate * 0.0f;
+				heatDelta = 0.0f;
 				if (HSStatus == EStatus.ON) {
 					HSStatus = EStatus.OFF;
 				}
 			}
-		}
 	}
 
 	public float getHeatDelta() {

@@ -5,7 +5,7 @@ public class Air implements IAir {
 	/**
 	 * Indicates the current heat value
 	 */
-	private float heat = 68;
+	private float heat = 6800;
 
 	/**
 	 * Indicates the heat's increase and decrease rate
@@ -15,21 +15,19 @@ public class Air implements IAir {
 	/**
 	 * Runs air tasks
 	 */
-	public void run(float heatDelta, EStatus thermosStatus) {
-		this.updateHeat(heatDelta, thermosStatus);
+	public void run(float heatDelta) {
+		this.updateHeat(heatDelta);
 	}
 
 	/**
 	 * Keeps heat up to date
 	 */
-	private void updateHeat(float heatDelta, EStatus thermosStatus) {
-		if (thermosStatus != EStatus.OFF && thermosStatus != EStatus.FAILED) {
+	private void updateHeat(float heatDelta) {
 			if (heatDelta != 0.0f) {
 				heat += heatDelta;
-			} else if( thermosStatus != EStatus.INIT){
+			} else{
 				heat -= decayRate * 0.1;
 			}
-		}
 	}
 
 	/**

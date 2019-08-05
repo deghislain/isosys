@@ -5,7 +5,7 @@ public interface IRegulator {
 	/**
 	 * This method run regulator tasks
 	 */
-	public abstract void run(EStatus thermosStatus, byte LDTempIn, byte UDTempIn, byte currTempIn);
+	public abstract void run(byte LDTempIn, byte UDTempIn, byte currTempIn);
 
 	/**
 	 * Return regulator current status
