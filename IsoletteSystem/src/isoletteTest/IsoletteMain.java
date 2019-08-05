@@ -19,7 +19,7 @@ public class IsoletteMain {
 		IsoletteSystem is = new IsoletteSystem();
 		int i =1;
 		
-		while(true) {
+		while(i < 8) {
 			System.out.println("Round: " +i++);
 			is.executeRound(true, lowDesiredTemp, upperDesiredTemp, lowAlarmTemp, upperAlarmTemp);
 		}

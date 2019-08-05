@@ -15,18 +15,20 @@ public class Air implements IAir {
 	/**
 	 * Runs air tasks
 	 */
-	public void run(float heatDelta) {
-		updateHeat(heatDelta);
+	public void run(float heatDelta, EStatus thermosStatus) {
+		this.updateHeat(heatDelta, thermosStatus);
 	}
 
 	/**
 	 * Keeps heat up to date
 	 */
-	private void updateHeat(float heatDelta) {
-		if(heatDelta != 0.0f) {
-			heat += heatDelta;
-		}else {
-			heat -= decayRate * 0.1;
+	private void updateHeat(float heatDelta, EStatus thermosStatus) {
+		if (thermosStatus != EStatus.OFF && thermosStatus != EStatus.FAILED) {
+			if (heatDelta != 0.0f) {
+				heat += heatDelta;
+			} else if( thermosStatus != EStatus.INIT){
+				heat -= decayRate * 0.1;
+			}
 		}
 	}
 

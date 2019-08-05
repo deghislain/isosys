@@ -35,13 +35,14 @@ public class IsoletteSystem implements IIsoletteSystem{
 		final float airTemp = temperatureSensor.getCurrentTemperature();
 		final float heat = air.getHeat();
 		final float heatDelta = heatSource.getHeatDelta();
+		final EStatus thermosStatus = operatorInterface.getThermosStatus();
 		
 		
-		runOperatorInterface(isolCom, thermosCom, LDTempIn, UDTempIn, LATempIn, UATempIn, displayTemp, regulatorStatus, monitorStatus);
-		runThermostat(thermosCom, LDTemp, UDTemp, LATemp, UATemp, airTemp);
-		runHeatSource(heatControl);
-		runAir(heatDelta);
-		runTemperatureSensor(heat);
+		this.runOperatorInterface(isolCom, thermosCom, LDTempIn, UDTempIn, LATempIn, UATempIn, displayTemp, regulatorStatus, monitorStatus);
+		this.runThermostat(thermosCom, LDTemp, UDTemp, LATemp, UATemp, airTemp);
+		this.runHeatSource(heatControl, thermosStatus);
+		this.runAir(heatDelta, thermosStatus);
+		this.runTemperatureSensor(heat);
 	}
 
 	/**
@@ -61,8 +62,8 @@ public class IsoletteSystem implements IIsoletteSystem{
 	/**
 	 * This method execute the heat source activities
 	 */
-	private void runHeatSource(EStatus heatControl) {
-		heatSource.run(heatControl);
+	private void runHeatSource(EStatus heatControl, EStatus thermosStatus) {
+		heatSource.run(heatControl, thermosStatus);
 	}
 
 	/**
@@ -72,8 +73,8 @@ public class IsoletteSystem implements IIsoletteSystem{
 		temperatureSensor.run(airTempIn);
 	}
 	
-	private void runAir(float heat) {
-		air.run(heat);
+	private void runAir(float heat, EStatus thermosStatus) {
+		air.run(heat, thermosStatus);
 	}
 
 }

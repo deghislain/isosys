@@ -67,12 +67,12 @@ public class Monitor implements IMonitor {
 	 * Run monitors tasks
 	 */
 	public void run(byte LATempIn, byte UATempIn, byte currTempIn) {
-		startTimer();
-		updateCurrentTemperature(LATempIn, UATempIn, currTempIn);
-		checkMonitorFailure(currTempIn);
-		updateMonitorMode();
-		updateMonitorStatus();
-		updateAlarmStatus();
+		this.startTimer();
+		this.updateCurrentTemperature(LATempIn, UATempIn, currTempIn);
+		this.checkMonitorFailure(currTempIn);
+		this.updateMonitorMode();
+		this.updateMonitorStatus();
+		this.updateAlarmStatus();
 	}
 
 	/**
@@ -148,13 +148,6 @@ public class Monitor implements IMonitor {
 		} else {
 			monMode = EStatus.FAILED;
 		}
-	}
-
-	/**
-	 * Keep the monitor general info
-	 */
-	private void updateMonitor() {
-
 	}
 
 	/**

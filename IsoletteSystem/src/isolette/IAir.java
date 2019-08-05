@@ -5,7 +5,7 @@ public interface IAir {
 	/**
 	 * Runs air tasks
 	 */
-	public  void run(float heatDelta);
+	public  void run(float heatDelta, EStatus thermosStatus);
 
 	/**
 	 * Returns Heat

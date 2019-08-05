@@ -63,14 +63,12 @@ public class Regulator implements IRegulator {
 	 * This method run regulator tasks
 	 */
 	public void run(EStatus thermosStatus, byte LDTempIn, byte UDTempIn, byte currTempIn) {
-		if (initTime == 0) {
-			startTimer(thermosStatus);
-		}
-		updateCurrentTemperature(LDTempIn, UDTempIn, currTempIn);
-		updateHeatSourceStatus(thermosStatus);
-		checkRegulatorFailure(LDTempIn, UDTempIn, currTempIn);
-		updateRegulatorMode();
-		updateRegulatorStatus();
+		this.startTimer(thermosStatus);
+		this.updateCurrentTemperature(LDTempIn, UDTempIn, currTempIn);
+		this.updateHeatSourceStatus();
+		this.checkRegulatorFailure(LDTempIn, UDTempIn, currTempIn);
+		this.updateRegulatorMode();
+		this.updateRegulatorStatus();
 	}
 
 	/**
@@ -131,10 +129,10 @@ public class Regulator implements IRegulator {
 	/**
 	 * Update the heat source status
 	 */
-	private void updateHeatSourceStatus(EStatus thermosStatus ) {
-		if ((thermosStatus != EStatus.OFF) && (currTemp < LDTemp && HSStatus == EStatus.OFF)) {
+	private void updateHeatSourceStatus() {
+		if (currTemp <= LDTemp && HSStatus == EStatus.OFF) {
 			HSStatus = EStatus.ON;
-		} else if((thermosStatus != EStatus.OFF) && (currTemp > UDTemp && HSStatus == EStatus.ON)){
+		} else if(currTemp >= UDTemp && HSStatus == EStatus.ON){
 			HSStatus = EStatus.OFF;
 		}
 	}

@@ -23,8 +23,8 @@ public class Thermostat implements IThermostat {
 	 */
 	public void run(boolean thermosCom, byte LDTempIn, byte UDTempIn, byte LATempIn, byte UATempIn, float airTempIn) {
 		byte currTemp = (byte) Math.round(airTempIn);
-			runRegulator(thermosStatus, LDTempIn, UDTempIn,currTemp);
-			runMonitor(LATempIn, UATempIn,currTemp);
+			this.runRegulator(thermosStatus, LDTempIn, UDTempIn,currTemp);
+			this.runMonitor(LATempIn, UATempIn,currTemp);
 	}
 
 	/**

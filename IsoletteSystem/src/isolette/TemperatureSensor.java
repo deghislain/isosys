@@ -15,7 +15,7 @@ public class TemperatureSensor implements ITemperatureSensor {
 	 * Executes temperature sensor tasks
 	 */
 	public void run(float heat) {
-		updateCurrentTemperature(heat);
+		this.updateCurrentTemperature(heat);
 	}
 
 	/**
