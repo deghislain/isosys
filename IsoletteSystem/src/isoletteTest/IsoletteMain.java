@@ -10,11 +10,11 @@ public class IsoletteMain {
 	public static void main(String[] args) {
 		final byte lowDesiredTemp = 97;
 
-		final byte upperDesiredTemp = 98;
+		final byte upperDesiredTemp = 99;
 
-		final byte lowAlarmTemp = 93;
+		final byte lowAlarmTemp = 96;
 
-		final byte upperAlarmTemp = 99;
+		final byte upperAlarmTemp = 100;
 
 		IsoletteSystem is = new IsoletteSystem();
 		int i =1;

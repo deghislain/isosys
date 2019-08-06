@@ -39,12 +39,12 @@ public class Monitor implements IMonitor {
 	/**
 	 * Indicates the lower desired temperature in input
 	 */
-	private byte LATemp = 93;
+	private byte LATemp = 96;
 
 	/**
 	 * Indicates the upper desired temperature in input
 	 */
-	private byte UATemp = 99;
+	private byte UATemp = 101;
 	
 	/**
 	 * Indicates the system initialization timeout
@@ -69,7 +69,7 @@ public class Monitor implements IMonitor {
 	public void run(byte LATempIn, byte UATempIn, byte currTempIn) {
 		this.startTimer();
 		this.updateCurrentTemperature(LATempIn, UATempIn, currTempIn);
-		this.checkMonitorFailure(currTempIn);
+		//this.checkMonitorFailure(currTempIn);
 		this.updateMonitorMode();
 		this.updateMonitorStatus();
 		this.updateAlarmStatus();
@@ -146,7 +146,7 @@ public class Monitor implements IMonitor {
 		if (monMode == EStatus.NORMAL) {
 			monStatus = EStatus.ON;
 		} else {
-			monMode = EStatus.FAILED;
+			monStatus = EStatus.FAILED;
 		}
 	}
 

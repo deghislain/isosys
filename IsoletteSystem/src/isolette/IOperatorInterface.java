@@ -3,49 +3,49 @@ package isolette;
 public interface IOperatorInterface {
 
 	/**
-	 * Indicates the minimum acceptable low desired temperature value for the isolette
+	 * Indicate the min low desirable temperature value that can be set by a nurse
 	 */
-	public byte MINLDTEMP = 97;
+	public static final byte MIN_LOW_DESIRABLE_TEMP = 97;
 
 	/**
-	 * Indicates the maximum acceptable low desired temperature value for the isolette
+	 * Indicate the max low desirable temperature value that can be set by a nurse
 	 */
-	public byte MAXLDTEMP = 99;
+	public static final byte MAX_LOW_DESIRABLE_TEMP = 99;
 
 	/**
-	 * Indicates the minimum acceptable low alarm temperature value for the isolette
+	 * Indicate the min upper desirable temperature value that can be set by a nurse
 	 */
-	public byte MINLATEMP = 93;
+	public static final byte MIN_UPPER_DESIRABLE_TEMP = 98;
 
 	/**
-	 * Indicates the maximum acceptable low alarm temperature value for the isolette
+	 * Indicate the max  low desirable temperature value that can be set by a nurse
 	 */
-	public byte MAXLATEMP = 98;
+	public static final byte MAX_UPPER_DESIRABLE_TEMP = 100;
 
 	/**
-	 * Indicates the minimum acceptable upper desired temperature value for the isolette
+	 * Indicate the min low alarm temperature value that can be set by a nurse
 	 */
-	public byte MINUDTEMP = 98;
+	public static final byte MIN_LOW_ALARM_TEMP = 93;
 
 	/**
-	 * Indicates the maximum acceptable upper desired temperature value for the isolette
+	 * Indicate the max  low alarm temperature value that can be set by a nurse
 	 */
-	public byte MAXUDTEMP = 100;
+	public static final byte MAX_LOW_ALARM_TEMP = 98;
 
 	/**
-	 * Indicates the minimum acceptable upper alarm temperature value for the isolette
+	 * Indicate the min upper alarm temperature value that can be set by a nurse
 	 */
-	public byte MINUATEMP = 99;
+	public static final byte MIN_UPPER_ALARM_TEMP = 99;
 
 	/**
-	 * Indicates the maximum acceptable upper alarm temperature value for the isolette
+	 * Indicate the max  low alarm temperature value that can be set by a nurse
 	 */
-	public byte MAXUATEMP = 103;
+	public static final byte MAX_UPPER_ALARM_TEMP = 103;
 
 	/**
 	 * This method executes all operator interface tasks
 	 */
-	public  void run(boolean isolCom, boolean thermosCom, byte LDTempIn, byte UDTempIn, byte LATempIn, byte UATempIn, byte displayTempIn, EStatus regStatus, EStatus monStatus);
+	public  void run(boolean isolCom, boolean thermosCom, byte LDTempIn, byte UDTempIn, byte LATempIn, byte UATempIn, byte displayTempIn, EStatus alarmStatusIn, EStatus regStatus, EStatus monStatus);
 	
 	public boolean getThermosCom();
 

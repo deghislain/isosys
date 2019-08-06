@@ -81,7 +81,7 @@ public class OperatorInterface implements IOperatorInterface {
 	 * This method executes all operator interface tasks
 	 */
 	public void run(boolean isolCom, boolean thermosCom, byte LDTempIn, byte UDTempIn, byte LATempIn, byte UATempIn,
-		byte displayTempIn, EStatus regStatus, EStatus monStatus) {
+		byte displayTempIn, EStatus alarmStatusIn,EStatus regStatus, EStatus monStatus) {
 		this.turnOn(isolCom);
 		this.turnOff(isolCom);
 		this.turnThermosOn();
@@ -89,7 +89,7 @@ public class OperatorInterface implements IOperatorInterface {
 		this.setDesiredTemp(LDTempIn, UDTempIn);
 		this.setAlarmTemp(LATempIn, UATempIn);
 		this.displaySystemInfo();
-		this.updateSystemInfo(regStatus, monStatus, displayTempIn);
+		this.updateSystemInfo(regStatus, monStatus, alarmStatusIn, displayTempIn);
 	}
 
 
@@ -101,13 +101,13 @@ public class OperatorInterface implements IOperatorInterface {
 				&& upperDesirableTempStatus == ETempStatus.INVALID) {
 			LDTemp = LDTempIn;
 			UDTemp = UDTempIn;
-			if (MINLDTEMP <= LDTempIn && LDTempIn <= MAXLDTEMP) {
+			if (MIN_LOW_DESIRABLE_TEMP <= LDTempIn && LDTempIn <= MAX_LOW_DESIRABLE_TEMP) {
 				lowDesirableTempStatus = ETempStatus.VALID;
 			}else {
 				lowDesirableTempStatus = ETempStatus.INVALID;
 			}
 
-			if (MINUDTEMP <= UDTemp && UDTemp <= MAXUDTEMP) {
+			if (MIN_UPPER_DESIRABLE_TEMP <= UDTemp && UDTemp <= MAX_UPPER_DESIRABLE_TEMP) {
 				upperDesirableTempStatus = ETempStatus.VALID;
 			} else {
 				upperDesirableTempStatus = ETempStatus.INVALID;
@@ -124,13 +124,13 @@ public class OperatorInterface implements IOperatorInterface {
 				&& upperAlarmTempStatus == ETempStatus.INVALID) {
 			LATemp = LATempIn;
 			UATemp = UATempIn;
-			if (MINLATEMP <= LATempIn && LATempIn <= MAXLATEMP) {
+			if (MIN_LOW_ALARM_TEMP <= LATempIn && LATempIn <= MAX_LOW_ALARM_TEMP && LATempIn <= LDTemp-1) {
 				lowAlarmTempStatus = ETempStatus.VALID;
 			} else {
 				lowAlarmTempStatus = ETempStatus.INVALID;
 			}
 
-			if (MINUATEMP <= UATempIn && UATempIn <= MAXUATEMP) {
+			if (MIN_UPPER_ALARM_TEMP <= UATempIn && UATempIn <= MAX_UPPER_ALARM_TEMP && UATempIn >= UATemp) {
 				upperAlarmTempStatus = ETempStatus.VALID;
 			} else {
 				upperAlarmTempStatus = ETempStatus.INVALID;
@@ -227,10 +227,11 @@ public class OperatorInterface implements IOperatorInterface {
 		}
 	}
 	
-	private void updateSystemInfo(EStatus regStatus, EStatus monStatus, byte disTemp) {
+	private void updateSystemInfo(EStatus regStatus, EStatus monStatus, EStatus alarmStatusIn, byte disTemp) {
 		if (isoletteStatus == EStatus.ON) {
 			this.currentTemperature = disTemp;
 			updateThermosStatus(regStatus, monStatus);
+			this.alarmStatus = alarmStatusIn;
 		}
 		
 	}

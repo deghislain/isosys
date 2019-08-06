@@ -40,12 +40,12 @@ public class Regulator implements IRegulator {
 	/**
 	 * Indicates the lower desired temperature in input
 	 */
-	private byte LDTemp = 97;
+	private byte LDTemp = 96;
 
 	/**
 	 * Indicates the upper desired temperature in input
 	 */
-	private byte UDTemp = 98;
+	private byte UDTemp = 102;
 
 	/**
 	 * Indicates the system initialization timeout

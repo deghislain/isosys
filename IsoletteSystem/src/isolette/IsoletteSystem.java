@@ -35,10 +35,11 @@ public class IsoletteSystem implements IIsoletteSystem{
 		final float airTemp = temperatureSensor.getCurrentTemperature();
 		final float heat = air.getHeat();
 		final float heatDelta = heatSource.getHeatDelta();
-		final EStatus thermosStatus = operatorInterface.getThermosStatus();
+		final EStatus alarmStatus = thermostat.getMonitor().getAlarmStatus();
 		
+		//final EStatus thermosStatus = operatorInterface.getThermosStatus();
 		
-		this.runOperatorInterface(isolCom, thermosCom, LDTempIn, UDTempIn, LATempIn, UATempIn, displayTemp, regulatorStatus, monitorStatus);
+		this.runOperatorInterface(isolCom, thermosCom, LDTempIn, UDTempIn, LATempIn, UATempIn, displayTemp, alarmStatus, regulatorStatus, monitorStatus);
 		this.runThermostat(thermosCom, LDTemp, UDTemp, LATemp, UATemp, airTemp);
 		this.runHeatSource(heatControl);
 		this.runAir(heatDelta);
@@ -48,8 +49,8 @@ public class IsoletteSystem implements IIsoletteSystem{
 	/**
 	 * This method execute the operator interface activities
 	 */
-	private void runOperatorInterface(boolean isolCom, boolean thermosCom, byte LDTempIn, byte UDTempIn, byte LATempIn, byte UATempIn, byte displayTempIn, EStatus regStatus, EStatus monStatus) {
-		operatorInterface.run(isolCom, thermosCom, LDTempIn, UDTempIn, LATempIn, UATempIn, displayTempIn, regStatus, monStatus);
+	private void runOperatorInterface(boolean isolCom, boolean thermosCom, byte LDTempIn, byte UDTempIn, byte LATempIn, byte UATempIn, byte displayTempIn, EStatus alarmStatus, EStatus regStatus, EStatus monStatus) {
+		operatorInterface.run(isolCom, thermosCom, LDTempIn, UDTempIn, LATempIn, UATempIn, displayTempIn, alarmStatus,regStatus, monStatus);
 	}
 
 	/**
