@@ -1,7 +1,11 @@
 package isolette;
 
-public class IsoletteSystem implements IIsoletteSystem{
-	
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class IsoletteSystem implements IIsoletteSystem {
+
 	private Thermostat thermostat;
 
 	private OperatorInterface operatorInterface;
@@ -11,9 +15,7 @@ public class IsoletteSystem implements IIsoletteSystem{
 	private TemperatureSensor temperatureSensor;
 
 	private HeatSource heatSource;
-	
-	
-	
+
 	public IsoletteSystem() {
 		operatorInterface = new OperatorInterface();
 		thermostat = new Thermostat();
@@ -21,7 +23,7 @@ public class IsoletteSystem implements IIsoletteSystem{
 		temperatureSensor = new TemperatureSensor();
 		heatSource = new HeatSource();
 	}
-	
+
 	public void executeRound(boolean isolCom, byte LDTempIn, byte UDTempIn, byte LATempIn, byte UATempIn) {
 		final boolean thermosCom = operatorInterface.getThermosCom();
 		final byte LDTemp = operatorInterface.getLowDesiredTemp();
@@ -36,46 +38,87 @@ public class IsoletteSystem implements IIsoletteSystem{
 		final float heat = air.getHeat();
 		final float heatDelta = heatSource.getHeatDelta();
 		final EStatus alarmStatus = thermostat.getMonitor().getAlarmStatus();
+
+		Thread operatorInterfaceThread = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				 System.out.println("Run by " + Thread.currentThread().getName() +" "+ convertTime(System.currentTimeMillis()));
+				operatorInterface.run(isolCom, thermosCom, LDTempIn, UDTempIn, LATempIn, UATempIn, displayTemp,
+						alarmStatus, regulatorStatus, monitorStatus);
+			}
+
+		});
+
+		Thread thermostatThread = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				 System.out.println("Run by " + Thread.currentThread().getName() +" "+ convertTime(System.currentTimeMillis()));
+				thermostat.run(thermosCom, LDTemp, UDTemp, LATemp, UATemp, airTemp);
+
+			}
+
+		});
 		
-		//final EStatus thermosStatus = operatorInterface.getThermosStatus();
+		Thread heatSourceThread = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				 System.out.println("Run by " + Thread.currentThread().getName() +" "+ convertTime(System.currentTimeMillis()));
+				heatSource.run(heatControl);
+			}
+			
+		});
 		
-		this.runOperatorInterface(isolCom, thermosCom, LDTempIn, UDTempIn, LATempIn, UATempIn, displayTemp, alarmStatus, regulatorStatus, monitorStatus);
-		this.runThermostat(thermosCom, LDTemp, UDTemp, LATemp, UATemp, airTemp);
-		this.runHeatSource(heatControl);
-		this.runAir(heatDelta);
-		this.runTemperatureSensor(heat);
-	}
+		Thread airThread = new Thread(new Runnable() {
 
-	/**
-	 * This method execute the operator interface activities
-	 */
-	private void runOperatorInterface(boolean isolCom, boolean thermosCom, byte LDTempIn, byte UDTempIn, byte LATempIn, byte UATempIn, byte displayTempIn, EStatus alarmStatus, EStatus regStatus, EStatus monStatus) {
-		operatorInterface.run(isolCom, thermosCom, LDTempIn, UDTempIn, LATempIn, UATempIn, displayTempIn, alarmStatus,regStatus, monStatus);
-	}
+			@Override
+			public void run() {
+				 System.out.println("Run by " + Thread.currentThread().getName() +" "+ convertTime(System.currentTimeMillis()));
+				air.run(heatDelta);
+			}
+			
+		});
+		
+		/*Thread temperatureSensorThread = new Thread(new Runnable() {
 
-	/**
-	 * This method execute the thermostat activities
-	 */
-	private void runThermostat(boolean thermosComIn, byte LDTempIn, byte UDTempIn, byte LATempIn, byte UATempIn, float currTempIn) {
-		thermostat.run(thermosComIn, LDTempIn, UDTempIn, LATempIn, UATempIn, currTempIn);
-	}
+			@Override
+			public void run() {
+				temperatureSensor.run(heat);
+			}
+			
+		});*/
+		
+		operatorInterfaceThread.setName("OI");
+		thermostatThread.setName("Thermostat");
+		heatSourceThread.setName("HS");
+		airThread.setName("air");
+		//temperatureSensorThread.setName("TS");
+		operatorInterfaceThread.start();
+		thermostatThread.start();
+		heatSourceThread.start();
+		airThread.start();
+		
+		temperatureSensor.run(heat);
+		
+		try {
+			 System.out.println("Run by " + Thread.currentThread().getName() +" "+ convertTime(System.currentTimeMillis()));
+			operatorInterfaceThread.join();
+			thermostatThread.join();
+			heatSourceThread.join();
+			airThread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 
-	/**
-	 * This method execute the heat source activities
-	 */
-	private void runHeatSource(EStatus heatControl) {
-		heatSource.run(heatControl);
-	}
-
-	/**
-	 * This method execute the temperature sensor activities
-	 */
-	private void runTemperatureSensor(float airTempIn) {
-		temperatureSensor.run(airTempIn);
 	}
 	
-	private void runAir(float heat) {
-		air.run(heat);
+	private String convertTime(long time){
+	    Date date = new Date(time);
+	    Format format = new SimpleDateFormat("yyyy MM dd HH:mm:ss");
+	    return format.format(date);
 	}
 
 }

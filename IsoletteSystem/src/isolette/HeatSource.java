@@ -28,12 +28,6 @@ public class HeatSource implements IHeatSource {
 			}
 	}
 
-	/**
-	 * Return the heat source current status
-	 */
-	public EStatus getHeatSourceStatus() {
-		return HSStatus;
-	}
 
 	/**
 	 * Turn the heat source off

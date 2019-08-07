@@ -1,5 +1,7 @@
 package isoletteTest;
 
+import java.util.concurrent.TimeUnit;
+
 import isolette.IsoletteSystem;
 
 public class IsoletteMain {
@@ -22,6 +24,12 @@ public class IsoletteMain {
 		while(true) {
 			System.out.println("Round: " +i++);
 			is.executeRound(true, lowDesiredTemp, upperDesiredTemp, lowAlarmTemp, upperAlarmTemp);
+			 try {
+				TimeUnit.MILLISECONDS.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			 
 		}
 		
 	}
