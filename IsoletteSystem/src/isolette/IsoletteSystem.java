@@ -43,7 +43,8 @@ public class IsoletteSystem implements IIsoletteSystem {
 
 			@Override
 			public void run() {
-				 System.out.println("Run by " + Thread.currentThread().getName() +" "+ convertTime(System.currentTimeMillis()));
+				System.out.println(
+						"Run by " + Thread.currentThread().getName() + " " + convertTime(System.currentTimeMillis()));
 				operatorInterface.run(isolCom, thermosCom, LDTempIn, UDTempIn, LATempIn, UATempIn, displayTemp,
 						alarmStatus, regulatorStatus, monitorStatus);
 			}
@@ -54,56 +55,59 @@ public class IsoletteSystem implements IIsoletteSystem {
 
 			@Override
 			public void run() {
-				 System.out.println("Run by " + Thread.currentThread().getName() +" "+ convertTime(System.currentTimeMillis()));
+				System.out.println(
+						"Run by " + Thread.currentThread().getName() + " " + convertTime(System.currentTimeMillis()));
 				thermostat.run(thermosCom, LDTemp, UDTemp, LATemp, UATemp, airTemp);
 
 			}
 
 		});
-		
+
 		Thread heatSourceThread = new Thread(new Runnable() {
 
 			@Override
 			public void run() {
-				 System.out.println("Run by " + Thread.currentThread().getName() +" "+ convertTime(System.currentTimeMillis()));
+				System.out.println(
+						"Run by " + Thread.currentThread().getName() + " " + convertTime(System.currentTimeMillis()));
 				heatSource.run(heatControl);
 			}
-			
+
 		});
-		
+
 		Thread airThread = new Thread(new Runnable() {
 
 			@Override
 			public void run() {
-				 System.out.println("Run by " + Thread.currentThread().getName() +" "+ convertTime(System.currentTimeMillis()));
+				System.out.println(
+						"Run by " + Thread.currentThread().getName() + " " + convertTime(System.currentTimeMillis()));
 				air.run(heatDelta);
 			}
-			
-		});
-		
-		/*Thread temperatureSensorThread = new Thread(new Runnable() {
 
-			@Override
-			public void run() {
-				temperatureSensor.run(heat);
-			}
-			
-		});*/
-		
+		});
+
+		/*
+		 * Thread temperatureSensorThread = new Thread(new Runnable() {
+		 * 
+		 * @Override public void run() { temperatureSensor.run(heat); }
+		 * 
+		 * });
+		 */
+
 		operatorInterfaceThread.setName("OI");
 		thermostatThread.setName("Thermostat");
 		heatSourceThread.setName("HS");
 		airThread.setName("air");
-		//temperatureSensorThread.setName("TS");
+		// temperatureSensorThread.setName("TS");
 		operatorInterfaceThread.start();
 		thermostatThread.start();
 		heatSourceThread.start();
 		airThread.start();
-		
+
 		temperatureSensor.run(heat);
-		
+
 		try {
-			 System.out.println("Run by " + Thread.currentThread().getName() +" "+ convertTime(System.currentTimeMillis()));
+			System.out.println(
+					"Run by " + Thread.currentThread().getName() + " " + convertTime(System.currentTimeMillis()));
 			operatorInterfaceThread.join();
 			thermostatThread.join();
 			heatSourceThread.join();
@@ -111,14 +115,13 @@ public class IsoletteSystem implements IIsoletteSystem {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
 
 	}
-	
-	private String convertTime(long time){
-	    Date date = new Date(time);
-	    Format format = new SimpleDateFormat("yyyy MM dd HH:mm:ss");
-	    return format.format(date);
+
+	private String convertTime(long time) {
+		Date date = new Date(time);
+		Format format = new SimpleDateFormat("yyyy MM dd HH:mm:ss");
+		return format.format(date);
 	}
 
 }

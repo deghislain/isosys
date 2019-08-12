@@ -24,7 +24,7 @@ public class IsoletteMain {
 		while(true) {
 			System.out.println("Round: " +i++);
 			is.executeRound(true, lowDesiredTemp, upperDesiredTemp, lowAlarmTemp, upperAlarmTemp);
-			 try {
+			try {
 				TimeUnit.MILLISECONDS.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();

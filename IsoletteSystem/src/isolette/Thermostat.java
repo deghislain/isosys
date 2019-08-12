@@ -2,11 +2,6 @@ package isolette;
 
 public class Thermostat implements IThermostat {
 
-	/**
-	 * Indicates the current thermostat status
-	 */
-	private EStatus thermosStatus = EStatus.OFF;
-
 	private Monitor monitor;
 
 	private Regulator regulator;

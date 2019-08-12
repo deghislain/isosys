@@ -75,9 +75,9 @@ public class Regulator implements IRegulator {
 	 * Start the initialization timer
 	 */
 	private void startTimer() {
-		if (regStatus == EStatus.INIT) {
-			if (initTime == 0) {
-				initTime = System.nanoTime();
+		if (this.regStatus == EStatus.INIT) {
+			if (this.initTime == 0) {
+				this.initTime = System.nanoTime();
 			}
 		}
 
@@ -87,13 +87,13 @@ public class Regulator implements IRegulator {
 	 * Update the current temperature
 	 */
 	private void updateCurrentTemperature(byte LDTempIn, byte UDTempIn, byte currTempIn) {
-		LDTemp = LDTempIn;
-		UDTemp = UDTempIn;
-		currTemp = currTempIn;
-		if (68 <= currTemp && currTemp <= 105) {
-			currTempStatus = ETempStatus.VALID;
+		this.LDTemp = LDTempIn;
+		this.UDTemp = UDTempIn;
+		this.currTemp = currTempIn;
+		if (68 <= this.currTemp && this.currTemp <= 105) {
+			this.currTempStatus = ETempStatus.VALID;
 		} else {
-			currTempStatus = ETempStatus.INVALID;
+			this.currTempStatus = ETempStatus.INVALID;
 		}
 
 	}
@@ -102,13 +102,13 @@ public class Regulator implements IRegulator {
 	 * Check the regulator failure
 	 */
 	private void checkRegulatorFailure(byte LDTempIn, byte UDTempIn, byte currTempIn) {
-		if ((currTempStatus == ETempStatus.INVALID && regStatus == EStatus.NORMAL)
-				|| (regStatus!=EStatus.INIT && currTemp < LDTempIn && HSStatus == EStatus.OFF) || (currTemp > UDTempIn && HSStatus == EStatus.ON)
-				|| ((System.nanoTime() - initTime) / 1000000000 >= initTimeout)
+		if ((this.currTempStatus == ETempStatus.INVALID && this.regStatus == EStatus.NORMAL)
+				|| (this.regStatus!=EStatus.INIT && this.currTemp < LDTempIn && this.HSStatus == EStatus.OFF) || (this.currTemp > UDTempIn && this.HSStatus == EStatus.ON)
+				|| (this.regStatus == EStatus.INIT && (System.nanoTime() - this.initTime) / 1000000000 >= this.initTimeout)
 				) {
-			regIntFailure = true;
+			this.regIntFailure = true;
 		} else {
-			regIntFailure = false;
+			this.regIntFailure = false;
 		}
 	}
 
@@ -116,25 +116,24 @@ public class Regulator implements IRegulator {
 	 * Update the regulator mode
 	 */
 	private void updateRegulatorMode() {
-		if (currTempStatus == ETempStatus.VALID && !regIntFailure) {
-			if (regMode == EStatus.INIT || regMode == EStatus.NORMAL) {
-				regMode = EStatus.NORMAL;
+		if (this.currTempStatus == ETempStatus.VALID && !this.regIntFailure) {
+			if (this.regMode == EStatus.INIT || this.regMode == EStatus.NORMAL) {
+				this.regMode = EStatus.NORMAL;
 			} else {
-				regMode = EStatus.FAILED;
+				this.regMode = EStatus.FAILED;
 			}
 		}
-		initTime = 0;
 	}
 
 	/**
 	 * Update the heat source status
 	 */
 	private void updateHeatSourceStatus() {
-		if (regStatus == EStatus.ON) {
-			if (currTemp <= LDTemp && HSStatus == EStatus.OFF) {
-				HSStatus = EStatus.ON;
-			} else if (currTemp >= UDTemp && HSStatus == EStatus.ON) {
-				HSStatus = EStatus.OFF;
+		if (this.regStatus == EStatus.ON) {
+			if (this.currTemp <= LDTemp && this.HSStatus == EStatus.OFF) {
+				this.HSStatus = EStatus.ON;
+			} else if (currTemp >= this.UDTemp && this.HSStatus == EStatus.ON) {
+				this.HSStatus = EStatus.OFF;
 			}
 		}
 	}
@@ -143,10 +142,10 @@ public class Regulator implements IRegulator {
 	 * Update the regulator status
 	 */
 	private void updateRegulatorStatus() {
-		if (regMode == EStatus.NORMAL) {
-			regStatus = EStatus.ON;
+		if (this.regMode == EStatus.NORMAL) {
+			this.regStatus = EStatus.ON;
 		} else {
-			regStatus = EStatus.FAILED;
+			this.regStatus = EStatus.FAILED;
 		}
 	}
 
@@ -154,21 +153,21 @@ public class Regulator implements IRegulator {
 	 * Return the regulator status
 	 */
 	public EStatus getRegulatorStatus() {
-		return regStatus;
+		return this.regStatus;
 	}
 
 	/**
 	 * Return the current display temperature
 	 */
 	public byte getDisplayTemp() {
-		return currTemp;
+		return this.currTemp;
 	}
 
 	/**
 	 * Return current heat control status
 	 */
 	public EStatus getHeatControl() {
-		return HSStatus;
+		return this.HSStatus;
 	}
 
 }
